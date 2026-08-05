@@ -29,11 +29,6 @@
           </select>
         </label>
       </li>
-      <li>
-        <label><strong>{'Image limit for the album:'|@translate}</strong>
-          <input type="number" name="max_items_limit" value="{$conf_fancybox.max_items_limit}" min="50" max="5000">
-        </label>
-      </li>
     </ul>
   </fieldset>
 
@@ -56,6 +51,11 @@
         <label>
           <input type="checkbox" name="load_full_album" value="1" {if !empty($conf_fancybox.load_full_album)}checked="checked"{/if}>
           <strong>{'Load the entire album via the API'|@translate}</strong> {'(if unchecked, only navigates among the photos of the current page)'|@translate}
+        </label>
+      </li>
+      <li>
+        <label><strong>{'Image limit for the album:'|@translate}</strong>
+          <input type="number" name="max_items_limit" value="{$conf_fancybox.max_items_limit}" min="50" max="5000">
         </label>
       </li>
     </ul>

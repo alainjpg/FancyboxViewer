@@ -13,6 +13,8 @@ if (!defined('PHPWG_ROOT_PATH')) die('Hacking attempt!');
 
 define('FANCYBOX_VIEWER_PATH', PHPWG_PLUGINS_PATH . basename(dirname(__FILE__)) . '/');
 
+load_language('plugin.lang', FANCYBOX_VIEWER_PATH);
+
 add_event_handler('get_admin_plugin_menu_links', 'fancybox_viewer_admin_menu');
 
 if (defined('IN_ADMIN')) {
@@ -43,7 +45,7 @@ function fancybox_viewer_get_default_config() {
         'enable_download'      => true,
         'enable_zoom'          => true,
         'enable_fullscreen'    => true,
-		'show_thumbs' 			=> true,
+		'show_thumb_button'  	=> true,
         'enable_slideshow'     => true,
         'infinite'             => true,
 		'slideshow_timeout' => 3000,
