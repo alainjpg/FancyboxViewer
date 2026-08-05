@@ -188,7 +188,7 @@ if (!empty($config['load_full_album'])) {
 var FANCYBOX_VIEWER_DATA = ' . json_encode(array(
     'config'           => $config,
     'category_id'      => $category_id,
-    'current_image_id' => isset($page['image']) ? (int)$page['image']['id'] : 0,
+    'current_image_id' => isset($page['image_id']) ? (int)$page['image_id'] : 0,
     'items'            => $images_data,
     'lang'             => array(
         'page_link' => l10n('Open the photo page'),

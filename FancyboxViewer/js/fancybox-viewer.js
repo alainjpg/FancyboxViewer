@@ -171,7 +171,6 @@ document.addEventListener("DOMContentLoaded", function () {
         if (typeof Fancybox === "undefined") return;
 
         const timeoutVal = parseInt(rawConfig.slideshow_timeout || 3000, 10);
-console.log("Timeout =", timeoutVal);
         Fancybox.show(items, {
             startIndex: startIndex,
             animated: true,
