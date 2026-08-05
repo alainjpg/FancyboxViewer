@@ -43,7 +43,7 @@ function fancybox_viewer_get_default_config() {
         'page_link'            => true,
         'open_new_tab'         => true,
         'enable_download'      => true,
-        'enable_zoom'          => true,
+        'enable_zoom'          => false,
         'enable_fullscreen'    => true,
 		'show_thumb_button'  	=> true,
         'enable_slideshow'     => true,
