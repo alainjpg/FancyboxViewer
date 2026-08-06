@@ -81,6 +81,8 @@ document.addEventListener("DOMContentLoaded", function () {
 				}
 
 				return {
+					id: item.id,
+					thumbSrc: item.src,
 					src: src,
 					type: "iframe",
 					caption: caption,
@@ -91,6 +93,8 @@ document.addEventListener("DOMContentLoaded", function () {
 			// Vidéos HTML5 (VideoJS)
 			if (/\.(mp4|webm|ogg)$/i.test(item.file)) {
 				return {
+					id: item.id,
+					thumbSrc: item.src,
 					src: item.download_src,
 					type: "html5video",
 					caption: caption,
