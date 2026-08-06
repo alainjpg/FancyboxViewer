@@ -49,7 +49,66 @@ document.addEventListener("DOMContentLoaded", function () {
 
         return false;
     }
+	function buildFancyboxItems() {
 
+		return FANCYBOX_VIEWER_DATA.items.map(item => {
+
+			let caption = item.name || item.comment || "";
+			if (isAutomaticFilename(caption)) caption = "";
+
+			// Embedded Videos
+			if (item.video_type) {
+
+				let src = item.video_url;
+
+				switch (item.video_type) {
+
+					case "youtube":
+						src = "https://www.youtube-nocookie.com/embed/" +
+							  item.video_id +
+							  "?autoplay=1";
+						break;
+
+					case "vimeo":
+						src = "https://player.vimeo.com/video/" +
+							  item.video_id;
+						break;
+
+					case "dailymotion":
+						src = "https://www.dailymotion.com/embed/video/" +
+							  item.video_id;
+						break;
+				}
+
+				return {
+					src: src,
+					type: "iframe",
+					caption: caption,
+					pageUrl: item.page_url
+				};
+			}
+
+			// Vidéos HTML5 (VideoJS)
+			if (/\.(mp4|webm|ogg)$/i.test(item.file)) {
+				return {
+					src: item.download_src,
+					type: "html5video",
+					caption: caption,
+					downloadSrc: item.download_src,
+					pageUrl: item.page_url
+				};
+			}
+
+			// Images
+			return {
+				src: item.src,
+				caption: caption,
+				downloadSrc: item.download_src,
+				pageUrl: item.page_url
+			};
+		});
+
+	}
     const toolbarRight = [];
     if (config.enable_autoplay) toolbarRight.push("autoplay");
     if (config.enable_zoom) { 
@@ -76,17 +135,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     FANCYBOX_VIEWER_DATA.items &&
                     FANCYBOX_VIEWER_DATA.items.length > 0
                 ) {
-                    const items = FANCYBOX_VIEWER_DATA.items.map(item => {
-                        let caption = item.name || item.comment || "";
-                        if (isAutomaticFilename(caption)) caption = "";
-
-                        return {
-                            src: item.src,
-                            caption: caption,
-                            downloadSrc: item.download_src,
-                            pageUrl: item.page_url
-                        };
-                    });
+                    const items = buildFancyboxItems();
 
                     const clickedImg = a.querySelector("img");
                     const clickedSrc = clickedImg ? (clickedImg.dataset.src || clickedImg.src) : "";
@@ -139,18 +188,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
-            const items = FANCYBOX_VIEWER_DATA.items.map(item => {
-                let caption = item.name || item.comment || "";
-                if (isAutomaticFilename(caption)) caption = "";
-
-                return {
-                    id: item.id,
-                    src: item.src,
-                    caption: caption,
-                    downloadSrc: item.download_src,
-                    pageUrl: item.page_url
-                };
-            });
+            const items = buildFancyboxItems();
 
 			let startIndex = items.findIndex(
 				item => item.id === FANCYBOX_VIEWER_DATA.current_image_id
@@ -176,6 +214,7 @@ document.addEventListener("DOMContentLoaded", function () {
             animated: true,
             dragToClose: true,
             Carousel: {
+			    
 				Autoplay: {
 					autoStart: false,
 					timeout: timeoutVal

@@ -1,12 +1,8 @@
 <?php
 /*
 Plugin Name: Fancybox Viewer
-Version: 0.0.1 BETA
-Description: Ouvre directement les photos dans Fancybox depuis la vue miniatures avec navigation sur tout l'album et masquage intelligent des noms automatiques.
-Plugin URI: https://piwigo.org
-Author: AJPG
-Author URI: https://piwigo.org
-Has Admin: true
+Version: 0.0.2 BETA
+
 */
 
 if (!defined('PHPWG_ROOT_PATH')) die('Hacking attempt!');
@@ -146,7 +142,23 @@ if (!empty($config['load_full_album'])) {
         ;';
 
         $result = pwg_query($query);
+		$gvideos = array();
 
+		if (defined('GVIDEO_TABLE') && pwg_db_num_rows($result))
+		{
+			$query = '
+		SELECT picture_id, type, video_id, url
+		FROM '.GVIDEO_TABLE.'
+		WHERE picture_id IN ('.$clean_ids.')
+		;';
+
+			$res = pwg_query($query);
+
+			while ($video = pwg_db_fetch_assoc($res))
+			{
+				$gvideos[$video['picture_id']] = $video;
+			}
+		}
         while ($row = pwg_db_fetch_assoc($result)) {
             $src_image = DerivativeImage::url($config['image_size'], $row);
             $original_src = get_element_path($row);
@@ -159,15 +171,18 @@ if (!empty($config['load_full_album'])) {
             $page_url = function_exists('duplicate_picture_url') 
                 ? duplicate_picture_url($url_params) 
                 : make_picture_url(array('image_id' => $row['id'], 'image_type' => 'picture'));
-
-            $images_data[] = array(
+            $video = isset($gvideos[$row['id']]) ? $gvideos[$row['id']] : null;
+			$images_data[] = array(
                 'id'           => (int)$row['id'],
                 'src'          => $src_image,
                 'download_src' => $original_src,
                 'page_url'     => $page_url,
                 'name'         => isset($row['name']) ? $row['name'] : '',
                 'comment'      => isset($row['comment']) ? $row['comment'] : '',
-                'file'         => isset($row['file']) ? $row['file'] : ''
+                'file'         => isset($row['file']) ? $row['file'] : '',
+				'video_type' => $video ? $video['type'] : '',
+				'video_id'   => $video ? $video['video_id'] : '',
+				'video_url'  => $video ? $video['url'] : '',
             );
         }
     }
