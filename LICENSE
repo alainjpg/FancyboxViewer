@@ -1,4 +1,11 @@
-                    GNU GENERAL PUBLIC LICENSE
+/*
+ * This plugin uses Fancybox by Fancyapps.
+ * Fancybox is subject to its own license:
+ * https://fancyapps.com/license/
+ */
+
+
+GNU GENERAL PUBLIC LICENSE
                        Version 2, June 1991
 
  Copyright (C) 1989, 1991 Free Software Foundation, Inc.,
