@@ -1,39 +1,40 @@
-# FancyboxViewer
+# FancyboxViewer for Piwigo
 
-FancyboxViewer is a Piwigo plugin that opens images directly in **Fancybox**, providing a modern and responsive viewing experience without leaving the gallery.
+FancyboxViewer is a Piwigo plugin that opens images and videos directly in **Fancybox 6**, offering a modern, responsive, and highly configurable viewing experience.
 
 ## Features
 
-* Open images from thumbnails or from the photo page
-* Album navigation
-* Zoom and fullscreen support
-* Download the original image
-* Slideshow with configurable interval
-* Thumbnail strip
-* Button to open the current photo in the standard Piwigo page
-* Ability to enable or disable the plugin for selected albums
+- Supports images and videos (including mixed albums)
+- Works from album thumbnails and photo pages
+- Fully configurable toolbar (download, slideshow, thumbnails, fullscreen, zoom, photo page link...)
+- Configurable slideshow and album loading behavior
+- Album include/exclude filtering
+- Automatic hiding of camera-generated filenames
+- Multilingual interface (English, French and German)
+
+## Supported video plugins
+
+- VideoJS (MP4, WebM, OGG)
+- Embedded Videos (YouTube, Vimeo, Dailymotion)
 
 ## Installation
 
 1. Download the latest release.
-2. Copy the `FancyboxViewer` folder into your Piwigo `plugins` directory.
-3. Activate the plugin from the Piwigo administration panel.
-4. Configure the plugin according to your preferences.
+2. Extract the archive.
+3. Copy the `FancyboxViewer` folder into your Piwigo `plugins` directory.
+4. Activate and configure the plugin.
 
 ## Requirements
 
-* Piwigo 15 or later
+- Piwigo 15 or later
 
-## Dependency
+## Fancybox
 
-This plugin uses Fancybox loaded from the official CDN.
+Fancybox is **not included** with this plugin. By default, Fancybox 6 is loaded from the official Fancyapps CDN (a local installation can also be used).
 
-Fancybox is developed and licensed by Fancyapps.
 Please refer to the official license terms:
 https://fancyapps.com/license/
 
-Users are responsible for ensuring that their use of Fancybox complies with the applicable license terms
-
 ## License
 
-FancyboxViewer is released under the GNU General Public License (GPL) v2 or later.
+GNU General Public License v2.0 or later (GPL-2.0-or-later).
