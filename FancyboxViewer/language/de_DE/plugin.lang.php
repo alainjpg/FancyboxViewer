@@ -2,14 +2,18 @@
 $lang['Fancybox Viewer'] = 'Fancybox Viewer';
 $lang['Information data registered'] = 'Einstellungen erfolgreich gespeichert.';
 $lang['General'] = 'Allgemein';
-$lang['Enable the Fancybox Viewer plugin'] = 'Fancybox-Viewer-Plugin aktivieren';
-$lang['Fancybox library source:'] = 'Fancybox-Bibliotheksquelle:';
+// Allemand
+$lang['Enable only on small screens'] = 'Nur auf kleinen Bildschirmen aktivieren';
+$lang['Mobile, tablet'] = 'Mobilgerät, Tablet';
+$lang['With this option, the standard Piwigo behavior is preserved on computers.'] = 'Mit dieser Option bleibt das standardmäßige Verhalten von Piwigo auf Computern erhalten.';
+$lang['Fancybox library source:'] = 'Quelle der Fancybox-Bibliothek:';
 $lang['Official CDN (jsDelivr - Recommended)'] = 'Offizielles CDN (jsDelivr - Empfohlen)';
 $lang['Local copy (<code>vendor/fancybox/</code>)'] = 'Lokaler Modus: Wenn diese Option aktiviert ist, laden Sie Fancybox v6 herunter und kopieren Sie <code>fancybox.css</code> und <code>fancybox.umd.js</code> nach <code>plugins/FancyboxViewer/vendor/fancybox/</code>';$lang['Large'] = 'Groß (Large)';
 $lang['XLarge'] = 'Sehr groß (XLarge)';
 $lang['XXLarge'] = 'XXLarge';
 $lang['Image limit for the album:'] = 'Bildlimit für das Album:';
 $lang['Locations & Carousel Scope'] = 'Orte & Karussell-Umfang';
+$lang['Open the viewer from the slideshow button'] = 'Viewer über die Schaltfläche „Diashow“ öffnen';
 $lang['Open Fancybox from thumbnails'] = 'Fancybox über die Miniaturansichten öffnen';
 $lang['(album page grid)'] = '(Rasteransicht der Albumseite)';
 $lang['Open Fancybox from the main image'] = 'Fancybox über das Hauptbild öffnen';
@@ -28,6 +32,7 @@ $lang['Fullscreen button'] = 'Vollbild-Schaltfläche';
 $lang['Show the thumbnails button'] = 'Miniaturansichten-Schaltfläche anzeigen';
 $lang['Enable the Slideshow'] = 'Diashow aktivieren';
 $lang['Infinite loop navigation'] = 'Endlosschleifen-Navigation';
+$lang['Autoplay on opening'] = 'Autoplay on opening';
 $lang['Slideshow interval (ms)'] = 'Diashow-Intervall (ms)';
 $lang['Album Restriction'] = 'Albumbeschränkung';
 $lang['Filter mode:'] = 'Filtermodus:';

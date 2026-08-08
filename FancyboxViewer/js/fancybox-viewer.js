@@ -9,9 +9,12 @@ document.addEventListener("DOMContentLoaded", function () {
         show_thumb_button: rawConfig.show_thumb_button !== false,
         page_link: rawConfig.page_link !== false && rawConfig.show_page_link !== false,
         open_new_tab: rawConfig.open_new_tab !== false,
-        open_from_thumbnails: rawConfig.open_from_thumbnails !== false,
-        open_from_picture: rawConfig.open_from_picture !== false,
-        load_full_album: rawConfig.load_full_album !== false
+		open_from_thumbnails: rawConfig.open_from_thumbnails !== false,
+		open_from_picture: rawConfig.open_from_picture !== false,
+		open_from_slideshow: rawConfig.open_from_slideshow === true,
+		load_full_album: rawConfig.load_full_album !== false,
+		mobile_only: rawConfig.mobile_only === true,
+		auto_start: rawConfig.auto_start === true,
     };
 
     function getLargeImage(src) {
@@ -105,6 +108,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			// Images
 			return {
+				id: item.id,
+				file: item.file,
 				src: item.src,
 				caption: caption,
 				downloadSrc: item.download_src,
@@ -126,10 +131,14 @@ document.addEventListener("DOMContentLoaded", function () {
     if (config.enable_fullscreen) toolbarRight.push("fullscreen");
     toolbarRight.push("close");
 
-    const thumbnailLinks = document.querySelectorAll("#thumbnails a, .thumbnails a");
+	const thumbnailLinks = document.querySelectorAll("#thumbnails a, .thumbnails a");
 
-    if (config.open_from_thumbnails && thumbnailLinks.length > 0) {
-        thumbnailLinks.forEach((a, index) => {
+	function isFancyboxAllowed() {
+		return !config.mobile_only ||
+			window.matchMedia("(max-width: 1024px)").matches;
+	}
+
+	if (isFancyboxAllowed() && config.open_from_thumbnails && thumbnailLinks.length > 0) {        thumbnailLinks.forEach((a, index) => {
             a.addEventListener("click", function (e) {
                 e.preventDefault();
 
@@ -158,10 +167,41 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         });
     }
+	function getCurrentImageIndex(items) {
+    const currentId = parseInt(FANCYBOX_VIEWER_DATA.current_image_id, 10);
 
+    const index = items.findIndex(item => item.id === currentId);
+
+    return index >= 0 ? index : 0;
+}
+	const slideshowButtons = document.querySelectorAll(
+		"#cmdSlideshow a, a[href*='slideshow=']"
+	);
+
+	if (isFancyboxAllowed() && config.open_from_slideshow && slideshowButtons.length > 0) {
+		slideshowButtons.forEach(function (button) {
+			button.addEventListener("click", function (e) {
+				e.preventDefault();
+
+				if (
+					typeof FANCYBOX_VIEWER_DATA === "undefined" ||
+					!FANCYBOX_VIEWER_DATA.items ||
+					!FANCYBOX_VIEWER_DATA.items.length
+				) {
+					return;
+				}
+
+				const items = buildFancyboxItems();
+
+				const startIndex = getCurrentImageIndex(items);
+
+				launchFancybox(items, startIndex);
+			});
+		});
+	}
     const pictureImage = document.getElementById("theMainImage");
 
-    if (config.open_from_picture && pictureImage) {
+	if (isFancyboxAllowed() && config.open_from_picture && pictureImage) {
         pictureImage.style.cursor = "zoom-in";
 
         pictureImage.addEventListener("click", function (e) {
@@ -194,18 +234,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const items = buildFancyboxItems();
 
-			let startIndex = items.findIndex(
-				item => item.id === FANCYBOX_VIEWER_DATA.current_image_id
-			);
+			const startIndex = getCurrentImageIndex(items);
 
-			if (startIndex === -1) {
-				startIndex = 0;
-			}
-            if (startIndex < 0) {
-                startIndex = 0;
-            }
-
-            launchFancybox(items, startIndex);
+			launchFancybox(items, startIndex);
         });
     }
 
@@ -220,7 +251,7 @@ document.addEventListener("DOMContentLoaded", function () {
             Carousel: {
 			    
 				Autoplay: {
-					autoStart: false,
+					autoStart: config.auto_start,
 					timeout: timeoutVal
 				},
 

@@ -8,13 +8,12 @@
   <fieldset>
     <legend>{'General'|@translate}</legend>
     <ul>
-      <li>
-        <label>
-          <input type="checkbox" name="enabled" value="1" {if $conf_fancybox.enabled}checked="checked"{/if}> 
-          <strong>{'Enable the Fancybox Viewer plugin'|@translate}</strong>
-        </label>
-      </li>
-      <li>
+	<li>
+	  <label>
+		<input type="checkbox" name="mobile_only" value="1" {if $conf_fancybox.mobile_only}checked="checked"{/if}>
+		<strong>{'Enable only on small screens'|@translate}</strong> ({'Mobile, tablet'|@translate}) — {'With this option, the standard Piwigo behavior is preserved on computers.'|@translate}
+	  </label>
+	</li>
         <label><strong>{'Fancybox library source:'|@translate}</strong></label><br>
         <label><input type="radio" name="fancybox_source" value="cdn" {if $conf_fancybox.fancybox_source == 'cdn'}checked="checked"{/if}> {'Official CDN (jsDelivr - Recommended)'|@translate}</label><br>
         <label><input type="radio" name="fancybox_source" value="local" {if $conf_fancybox.fancybox_source == 'local'}checked="checked"{/if}> {'Local copy (<code>vendor/fancybox/</code>)'|@translate}</label>
@@ -35,6 +34,12 @@
 <fieldset>
     <legend>{'Locations & Carousel Scope'|@translate}</legend>
     <ul>
+		<li>
+		  <label>
+			<input type="checkbox" name="open_from_slideshow" value="1" {if $conf_fancybox.open_from_slideshow}checked="checked"{/if}>
+			<strong>{'Open the viewer from the slideshow button'|@translate}</strong>
+		  </label>
+		</li>
       <li>
         <label>
           <input type="checkbox" name="open_from_thumbnails" value="1" {if !empty($conf_fancybox.open_from_thumbnails)}checked="checked"{/if}>
@@ -77,19 +82,25 @@
       <li><label><input type="checkbox" name="enable_download" value="1" {if $conf_fancybox.enable_download}checked="checked"{/if}> {'Original image download button'|@translate}</label></li>
       <li><label><input type="checkbox" name="enable_zoom" value="1" {if $conf_fancybox.enable_zoom}checked="checked"{/if}> {'Zoom button'|@translate}</label></li>
       <li><label><input type="checkbox" name="enable_fullscreen" value="1" {if $conf_fancybox.enable_fullscreen}checked="checked"{/if}> {'Fullscreen button'|@translate}</label></li>
-<li><label><input type="checkbox" name="show_thumb_button" value="1" {if $conf_fancybox.show_thumb_button}checked="checked"{/if}> {'Show the thumbnails button'|@translate}</label></li>
+	<li><label><input type="checkbox" name="show_thumb_button" value="1" {if $conf_fancybox.show_thumb_button}checked="checked"{/if}> {'Show the thumbnails button'|@translate}</label></li>
 	<li><label><input type="checkbox" name="enable_slideshow" value="1" {if $conf_fancybox.enable_slideshow}checked="checked"{/if}> {'Enable the Slideshow'|@translate}</label></li>
-      <li><label><input type="checkbox" name="infinite" value="1" {if $conf_fancybox.infinite}checked="checked"{/if}> {'Infinite loop navigation'|@translate}</label></li>
-<li>
-    <label>
-        {'Slideshow interval (ms)'|@translate}
-        <input type="number"
-               name="slideshow_timeout"
-               min="500"
-               step="100"
-               value="{$conf_fancybox.slideshow_timeout}">
-    </label>
-</li>
+    <li><label><input type="checkbox" name="infinite" value="1" {if $conf_fancybox.infinite}checked="checked"{/if}> {'Infinite loop navigation'|@translate}</label></li>
+	<li>
+	  <label>
+		<input type="checkbox" name="auto_start" value="1" {if $conf_fancybox.auto_start}checked="checked"{/if}>
+		{'Autoplay on opening'|@translate}
+	  </label>
+	</li>
+	<li>
+		<label>
+			{'Slideshow interval (ms)'|@translate}
+			<input type="number"
+				   name="slideshow_timeout"
+				   min="500"
+				   step="100"
+				   value="{$conf_fancybox.slideshow_timeout}">
+		</label>
+	</li>
     </ul>
   </fieldset>
 

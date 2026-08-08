@@ -9,15 +9,16 @@ if (isset($_POST['submit'])) {
     check_pwg_token();
 
     $config = array(
-        'enabled'              => isset($_POST['enabled']),
+		'mobile_only'          => isset($_POST['mobile_only']),		
         'fancybox_source'      => isset($_POST['fancybox_source']) ? $_POST['fancybox_source'] : 'cdn',
         'image_size'           => isset($_POST['image_size']) ? $_POST['image_size'] : 'xlarge',
         
         // --- NOUVELLES OPTIONS DE PORTE D'ENTRÉE ET CHARGEMENT ---
+		'open_from_thumbnails' => isset($_POST['open_from_thumbnails']),
         'open_from_thumbnails' => isset($_POST['open_from_thumbnails']),
         'open_from_picture'    => isset($_POST['open_from_picture']),
+		'open_from_slideshow'  => isset($_POST['open_from_slideshow']),      
         'load_full_album'      => isset($_POST['load_full_album']),
-        
         'show_caption'         => isset($_POST['show_caption']),
         'show_description'     => isset($_POST['show_description']),
         'hide_auto_names'      => isset($_POST['hide_auto_names']),
@@ -29,6 +30,7 @@ if (isset($_POST['submit'])) {
 		'show_thumb_button'    => isset($_POST['show_thumb_button']),
         'enable_slideshow'     => isset($_POST['enable_slideshow']),
         'infinite'             => isset($_POST['infinite']),
+		'auto_start' => isset($_POST['auto_start']),
         'slideshow_timeout'	   => isset($_POST['slideshow_timeout']) ? (int) $_POST['slideshow_timeout'] : 3000,
         'max_items_limit'      => isset($_POST['max_items_limit']) ? (int)$_POST['max_items_limit'] : 500,
         'filter_mode'          => isset($_POST['filter_mode']) ? $_POST['filter_mode'] : 'all',
@@ -41,7 +43,15 @@ if (isset($_POST['submit'])) {
 }
 
 $raw_conf = isset($conf['fancybox_viewer']) ? $conf['fancybox_viewer'] : null;
-$config = $raw_conf ? fancybox_viewer_unserialize($raw_conf) : fancybox_viewer_get_default_config();
+
+$config = $raw_conf
+    ? fancybox_viewer_unserialize($raw_conf)
+    : fancybox_viewer_get_default_config();
+
+$config = array_merge(
+    fancybox_viewer_get_default_config(),
+    $config
+);
 
 $query = '
 SELECT id, name

@@ -27,24 +27,27 @@ if (defined('IN_ADMIN')) {
 
 function fancybox_viewer_get_default_config() {
     return array(
-        'enabled'              => true,
+		'mobile_only' => false,
         'fancybox_source'      => 'cdn',
         'image_size'           => 'xlarge',
         'open_from_thumbnails' => true,
         'open_from_picture'    => true,
+		'open_from_slideshow'  => true,
         'load_full_album'      => true,
         'show_caption'         => true,
         'show_description'     => true,
         'hide_auto_names'      => true,
         'page_link'            => true,
-        'open_new_tab'         => true,
+        'open_new_tab'         => false,
         'enable_download'      => true,
         'enable_zoom'          => false,
         'enable_fullscreen'    => true,
 		'show_thumb_button'  	=> true,
         'enable_slideshow'     => true,
         'infinite'             => true,
+		'auto_start'           => false,
 		'slideshow_timeout' => 3000,
+
         'max_items_limit'      => 500,
         'filter_mode'          => 'all',
         'album_categories'     => array()
@@ -65,11 +68,14 @@ add_event_handler('loc_end_page_header', 'fancybox_viewer_inject');
 function fancybox_viewer_inject() {
     global $page, $template, $conf;
 
-    $config = isset($conf['fancybox_viewer']) ? fancybox_viewer_unserialize($conf['fancybox_viewer']) : fancybox_viewer_get_default_config();
+	$config = isset($conf['fancybox_viewer'])
+		? fancybox_viewer_unserialize($conf['fancybox_viewer'])
+		: fancybox_viewer_get_default_config();
 
-    if (empty($config['enabled'])) {
-        return;
-    }
+	$config = array_merge(
+		fancybox_viewer_get_default_config(),
+		$config
+	);
 
     $category_id = isset($page['category']['id']) ? (int)$page['category']['id'] : null;
 
@@ -98,7 +104,7 @@ function fancybox_viewer_inject() {
 // Détermination des IDs selon la configuration
 $items = array();
 
-if (!empty($config['load_full_album'])) {
+if (!empty($config['load_full_album']) || !empty($config['open_from_slideshow'])) {
 
     // Toutes les photos de l'album
     $items = isset($page['items']) ? $page['items'] : array();
@@ -110,23 +116,24 @@ if (!empty($config['load_full_album'])) {
 
 } else {
 
-    // Si on est sur la page des miniatures :
-    $thumbnails = $template->get_template_vars('thumbnails');
+    // Si on est sur picture.php :
+	if (isset($page['image_id'])) {
 
-    if (!empty($thumbnails) && is_array($thumbnails)) {
+		$items[] = (int)$page['image_id'];
 
-        foreach ($thumbnails as $thumb) {
-            if (isset($thumb['id'])) {
-                $items[] = (int)$thumb['id'];
+	} else {
+
+        // Sinon, on récupère les photos de la page des miniatures
+        $thumbnails = $template->get_template_vars('thumbnails');
+
+        if (!empty($thumbnails) && is_array($thumbnails)) {
+
+            foreach ($thumbnails as $thumb) {
+                if (isset($thumb['id'])) {
+                    $items[] = (int)$thumb['id'];
+                }
             }
         }
-
-    }
-    // Si on est sur picture.php :
-    elseif (isset($page['image']) && isset($page['image']['id'])) {
-
-        $items[] = (int)$page['image']['id'];
-
     }
 }
 
@@ -203,8 +210,8 @@ if (!empty($config['load_full_album'])) {
 var FANCYBOX_VIEWER_DATA = ' . json_encode(array(
     'config'           => $config,
     'category_id'      => $category_id,
-    'current_image_id' => isset($page['image_id']) ? (int)$page['image_id'] : 0,
-    'items'            => $images_data,
+	'current_image_id' => isset($page['image_id']) ? (int)$page['image_id'] : 0,
+	'items'            => $images_data,
     'lang'             => array(
         'page_link' => l10n('Open the photo page'),
         'autoplay'  => l10n('Start / Stop slideshow')
