@@ -232,11 +232,13 @@ document.addEventListener("DOMContentLoaded", function () {
                     },
                     items: {
                         pageLink: {
-                            tpl: `<button class="f-button" title="${(typeof FANCYBOX_VIEWER_DATA !== "undefined" && FANCYBOX_VIEWER_DATA.lang && FANCYBOX_VIEWER_DATA.lang.page_link) ? FANCYBOX_VIEWER_DATA.lang.page_link : "Ouvrir la page de la photo"}" type="button">
-                                <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="vertical-align: middle;">
-                                    <path d="M14 5h5v5M19 5l-8 8M19 13v5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </button>`,
+							tpl: `<button class="f-button" title="${(typeof FANCYBOX_VIEWER_DATA !== "undefined" && FANCYBOX_VIEWER_DATA.lang && FANCYBOX_VIEWER_DATA.lang.page_link) ? FANCYBOX_VIEWER_DATA.lang.page_link : "Ouvrir la page de la photo"}" type="button">
+								<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="vertical-align: middle;">
+									<circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/>
+									<path d="M12 11v6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+									<circle cx="12" cy="7.5" r="1" fill="currentColor"/>
+								</svg>
+							</button>`,
                             click: function (toolbar) {
                                 const instance = toolbar.instance || (typeof Fancybox !== "undefined" ? Fancybox.getInstance() : null);
                                 if (!instance) return;
